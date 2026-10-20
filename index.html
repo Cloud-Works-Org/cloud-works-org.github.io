@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cloud Works | Systems & Operations</title>
+    <title>Cloud Works | Professional Web Apps & Support</title>
     <style>
         :root {
             --bg-dark: #070a13;
@@ -47,12 +47,70 @@
             margin: 0;
             padding: 0;
             line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
         }
 
-        .container {
+        /* Tech Mesh Background Glows */
+        body::before, body::after {
+            content: "";
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(99, 91, 255, 0.12) 0%, rgba(0,0,0,0) 70%);
+            z-index: -1;
+        }
+        body::before { top: -100px; left: -100px; }
+        body::after { top: 60%; right: -100px; }
+
+        /* Navigation Bar */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 5%;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            background: rgba(7, 10, 19, 0.7);
+            backdrop-filter: blur(16px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -0.05em;
+            background: linear-gradient(45deg, var(--accent-blue), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            margin-left: 1.5rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        nav a:hover, nav a.active-link {
+            color: var(--text-main);
+            text-shadow: 0 0 10px rgba(255,255,255,0.3);
+        }
+
+        /* Multi-page System Controls */
+        .page {
+            display: none;
+            padding: 4rem 5%;
             max-width: 1200px;
             margin: 0 auto;
-            padding: 4rem 5%;
+        }
+
+        .page.active {
+            display: block;
+            animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .hero {
@@ -72,11 +130,16 @@
             color: var(--text-muted);
         }
 
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+        }
+
         .grid-2 {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 2.5rem;
-            margin-top: 2rem;
         }
 
         .card {
@@ -93,12 +156,19 @@
         .card:hover {
             transform: translateY(-5px);
             border-color: var(--accent-blue);
+            box-shadow: 0 20px 40px rgba(99, 91, 255, 0.1);
         }
 
         .price-badge {
-            font-size: 2rem;
+            font-size: 2.2rem;
             font-weight: 800;
             margin: 1.5rem 0;
+        }
+
+        .price-badge span {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            font-weight: 400;
         }
 
         .step-list {
@@ -126,7 +196,8 @@
         }
 
         .btn:hover {
-            opacity: 0.9;
+            opacity: 0.95;
+            box-shadow: 0 4px 15px rgba(99, 91, 255, 0.4);
         }
 
         .btn-secondary {
@@ -182,37 +253,96 @@
         .a11y-menu button:hover {
             background: var(--accent-purple);
         }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        
-        <!-- MAIN SECTION HEADER -->
+    <header>
+        <div class="logo">Cloud Works</div>
+        <nav id="navbar">
+            <a onclick="showPage('home')" class="active-link">Home</a>
+            <a onclick="showPage('apps')">App Development</a>
+            <a onclick="showPage('support')">Systems & Operations</a>
+        </nav>
+    </header>
+
+    <!-- PAGE 1: HOME -->
+    <main id="home" class="page active">
+        <section class="hero">
+            <h1>Next-Gen Application Engineering</h1>
+            <p>We craft ultra-responsive web solutions and provide continuous enterprise infrastructure optimization.</p>
+        </section>
+
+        <!-- EXACTLY 3 SYMMETRICAL AGENCY PILLARS -->
+        <section class="grid-3">
+            <div class="card">
+                <h3 style="color: var(--accent-blue);">01 / Web Architecture</h3>
+                <p>We build production-ready applications structured around custom Freebuff setups to give your users lightning-fast, interactive experiences.</p>
+            </div>
+            <div class="card">
+                <h3 style="color: var(--accent-purple);">02 / Milepost Execution</h3>
+                <p>No unexpected hidden fees. Lock in development pipelines with an upfront £100 deposit, verify milestones, and get your code cleanly packaged in a final archive zip file.</p>
+            </div>
+            <div class="card">
+                <h3 style="color: #10b981;">03 / Remote Maintenance</h3>
+                <p>Proactive platform checks, performance monitoring, and server-side configurations engineered to guarantee persistent operational availability.</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- PAGE 2: APP DEVELOPMENT -->
+    <main id="apps" class="page">
+        <section class="hero">
+            <h1>Custom App Development</h1>
+            <p>Premium development pipeline using robust, custom-engineered code ecosystems.</p>
+        </section>
+
+        <div style="max-width: 650px; margin: 0 auto;">
+            <div class="card">
+                <div>
+                    <h3>Freebuff Web Application Build</h3>
+                    <p>Perfect for turning high-performance concepts into functional, lightweight application storefronts.</p>
+                    <div class="price-badge">£100 <span>/ Upfront Deposit</span></div>
+                    
+                    <ul class="step-list">
+                        <li>Secure transaction sets off your project configuration framework.</li>
+                        <li>Full execution phase with continuous visual deployment test checks.</li>
+                        <li>Final milestones invoiced cleanly once finalized.</li>
+                        <li>Instant project handover delivered in an organized archive file structure (ZIP).</li>
+                    </ul>
+                </div>
+                <a href="YOUR_DEPOSIT_LINK_HERE" class="btn">Launch Your Project</a>
+            </div>
+        </div>
+    </main>
+
+    <!-- PAGE 3: SYSTEMS & OPERATIONS -->
+    <main id="support" class="page">
         <section class="hero">
             <h1>Systems & Operations</h1>
             <p>Ensure your online infrastructure remains fully optimized and online 24/7.</p>
         </section>
 
-        <!-- SERVICES SECTION GRID -->
         <section class="grid-2">
-            
-            <!-- REMOTE SERVER SUPPORT -->
             <div class="card">
                 <div>
                     <h3>Remote Server Support</h3>
                     <p>On-demand specialized maintenance sessions to debug network protocols, update OS architectures, or clean database clusters.</p>
                     <div class="price-badge">Pay-Per-Incident</div>
                 </div>
-                <button onclick="alert('Contacting support team...')" class="btn btn-secondary">Contact Technical Team</button>
+                <button onclick="alert('Email us details of your server environment directly at admin@cloudworks.org.uk to arrange a support session.')" class="btn btn-secondary">Contact Technical Team</button>
             </div>
 
-            <!-- WEB APP CHECKUP PLAN -->
             <div class="card">
                 <div>
                     <h3>Web App Checkup Plan</h3>
                     <p>Ongoing recurring monitoring plan specifically crafted for web apps we build for you to avoid performance lag or software regressions.</p>
-                    <div class="price-badge">£4.99 / month</div>
+                    <div class="price-badge">£4.99 <span>/ month</span></div>
                     <ul class="step-list">
                         <li>Routine configuration updates.</li>
                         <li>Critical structure integrity tests.</li>
@@ -221,11 +351,10 @@
                 </div>
                 <a href="YOUR_SUBSCRIPTION_LINK_HERE" class="btn">Subscribe to Maintenance</a>
             </div>
-
         </section>
-    </div>
+    </main>
 
-    <!-- ACCESSIBILITY INTERACTIVE COMPONENT -->
+    <!-- ACCESSIBILITY INTERACTIVE SIDEBAR CONTROL -->
     <div class="a11y-widget">
         <button class="a11y-toggle" onclick="toggleA11yMenu()">Accessibility Options ⚙️</button>
         <div class="a11y-menu" id="a11yMenu">
@@ -235,7 +364,6 @@
         </div>
     </div>
 
-    <!-- UTILITY CONTROL SCRIPTS -->
     <script>
         // Tab Routing Functionality
         function showPage(pageId) {
@@ -243,7 +371,9 @@
             document.getElementById(pageId).classList.add('active');
             
             document.querySelectorAll('nav a').forEach(link => link.classList.remove('active-link'));
-            event.currentTarget.classList.add('active-link');
+            if(event && event.currentTarget) {
+                event.currentTarget.classList.add('active-link');
+            }
             
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
@@ -254,6 +384,7 @@
             menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
         }
 
+        // Apply accessibility CSS style variants dynamically
         function toggleSetting(className) {
             document.body.classList.toggle(className);
         }
