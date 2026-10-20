@@ -162,13 +162,21 @@
         .price-badge {
             font-size: 2.2rem;
             font-weight: 800;
-            margin: 1.5rem 0;
+            margin: 1.5rem 0 0.5rem 0;
         }
 
         .price-badge span {
             font-size: 1.1rem;
             color: var(--text-muted);
             font-weight: 400;
+        }
+
+        .price-cap {
+            font-size: 0.95rem;
+            color: #10b981;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            letter-spacing: 0.02em;
         }
 
         .step-list {
@@ -286,7 +294,7 @@
             </div>
             <div class="card">
                 <h3 style="color: var(--accent-purple);">02 / Milepost Execution</h3>
-                <p>No unexpected hidden fees. Lock in development pipelines with an upfront £100 deposit, verify milestones, and get your code cleanly packaged in a final archive zip file.</p>
+                <p>No unexpected hidden fees. Lock in development pipelines with a structured upfront deposit, verify milestones, and get your code cleanly packaged in a final archive zip file.</p>
             </div>
             <div class="card">
                 <h3 style="color: #10b981;">03 / Remote Maintenance</h3>
@@ -302,12 +310,14 @@
             <p>Premium development pipeline using robust, custom-engineered code ecosystems.</p>
         </section>
 
-        <div style="max-width: 650px; margin: 0 auto;">
+        <section class="grid-2">
+            <!-- SMALL COMPANY PLAN -->
             <div class="card">
                 <div>
-                    <h3>Freebuff Web Application Build</h3>
-                    <p>Perfect for turning high-performance concepts into functional, lightweight application storefronts.</p>
+                    <h3>Small Company Project</h3>
+                    <p>Optimized application layers engineered specifically for teams up to roughly 10 active ecosystem users.</p>
                     <div class="price-badge">£100 <span>/ Upfront Deposit</span></div>
+                    <div class="price-cap">✓ Total project cost up to £900 (including deposit)</div>
                     
                     <ul class="step-list">
                         <li>Secure transaction sets off your project configuration framework.</li>
@@ -316,9 +326,29 @@
                         <li>Instant project handover delivered in an organized archive file structure (ZIP).</li>
                     </ul>
                 </div>
-                <a href="YOUR_DEPOSIT_LINK_HERE" class="btn">Launch Your Project</a>
+                <!-- SWAP THIS VALUE WITH YOUR £100 STRIPE LINK -->
+                <a href="YOUR_SMALL_COMPANY_DEPOSIT_LINK" class="btn">Launch Small Company Build</a>
             </div>
-        </div>
+
+            <!-- BIGGER COMPANY PLAN -->
+            <div class="card">
+                <div>
+                    <h3>Bigger Company Project</h3>
+                    <p>High-capacity operational application builds designed for broader system environments and larger company profiles.</p>
+                    <div class="price-badge">£500 <span>/ Upfront Deposit</span></div>
+                    <div class="price-cap">✓ Total project cost up to £1,900 (including deposit)</div>
+                    
+                    <ul class="step-list">
+                        <li>Dedicated repository setups and infrastructure scaffolding.</li>
+                        <li>Deep component configuration and architectural validation runs.</li>
+                        <li>Milestones cleared transparently with post-build terms.</li>
+                        <li>Source arrays handed over in clean deployable production files (ZIP).</li>
+                    </ul>
+                </div>
+                <!-- SWAP THIS VALUE WITH YOUR NEW £500 STRIPE LINK -->
+                <a href="YOUR_BIGGER_COMPANY_DEPOSIT_LINK" class="btn">Launch Bigger Company Build</a>
+            </div>
+        </section>
     </main>
 
     <!-- PAGE 3: SYSTEMS & OPERATIONS -->
