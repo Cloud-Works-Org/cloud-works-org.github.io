@@ -1,321 +1,269 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Cloud Works Portal</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24' fill='white' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='12' cy='12' r='10' fill='%233490dc'/%3E%3Cpath d='M12 2a1 1 0 0 1 1 1v7.59l2.3-2.3a1 1 0 1 1 1.4 1.42l-4 4a1 1 0 0 1-1.4 0l-4-4a1 1 0 1 1 1.4-1.42L11 10.59V3a1 1 0 0 1 1-1zm-6 13h12a2 2 0 0 1 2 2v1H4v-1a2 2 0 0 1 2-2z'/%3E%3C/svg%3E">
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600;700&display=swap" rel="stylesheet">
-<script src="https://cdn.tailwindcss.com"></script>
-<style>
-  :root{
-    --page-bg: #f8fafc;
-    --card-bg: #ffffff;
-    --muted: #7c8794;
-    --primary: #0f172a;
-    --accent-600: #0ea5a4;
-  }
-  html, body { height: 100%; }
-  body {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    font-family: 'IBM Plex Sans', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-    background: var(--page-bg);
-    color: var(--primary);
-    -webkit-font-smoothing:antialiased;
-    -moz-osx-font-smoothing:grayscale;
-  }
-  main { flex: 1; padding-top: 5.5rem; }
-  .nav-active { background:var(--accent-600); color:#fff; }
-  footer { margin-top: 0; }
-  .card {
-    background: var(--card-bg);
-    border: 1px solid rgba(15,23,42,0.04);
-    box-shadow: 0 6px 18px rgba(15,23,42,0.06);
-  }
-  .modal-backdrop { transition: opacity 200ms ease, visibility 200ms ease; }
-  .modal-panel { transition: transform 220ms cubic-bezier(.2,.9,.2,1), opacity 220ms ease; }
-  .glass { backdrop-filter: blur(6px); background: rgba(255,255,255,0.6); border: 1px solid rgba(15,23,42,0.04); }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud Works | Systems & Operations</title>
+    <style>
+        :root {
+            --bg-dark: #070a13;
+            --card-bg: rgba(22, 28, 45, 0.4);
+            --card-border: rgba(99, 91, 255, 0.15);
+            --accent-blue: #3b82f6;
+            --accent-purple: #635bff;
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --font-size-base: 1rem;
+        }
+
+        /* Accessibility Filters */
+        body.high-contrast {
+            --bg-dark: #000000;
+            --card-bg: #111111;
+            --card-border: #ffffff;
+            --accent-blue: #ffff00;
+            --accent-purple: #00ffff;
+            --text-main: #ffffff;
+            --text-muted: #ffffff;
+        }
+        body.colorblind-mode {
+            --accent-blue: #0072b2;
+            --accent-purple: #e69f00;
+        }
+        body.large-text {
+            --font-size-base: 1.25rem;
+        }
+
+        * {
+            box-sizing: border-box;
+            transition: all 0.25s ease;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-size: var(--font-size-base);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 5%;
+        }
+
+        .hero {
+            text-align: center;
+            padding-bottom: 3rem;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(180deg, #ffffff 0%, #a5b4fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            color: var(--text-muted);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+            margin-top: 2rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            backdrop-filter: blur(16px);
+            border-radius: 16px;
+            padding: 2.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-blue);
+        }
+
+        .price-badge {
+            font-size: 2rem;
+            font-weight: 800;
+            margin: 1.5rem 0;
+        }
+
+        .step-list {
+            margin: 1.5rem 0;
+            padding-left: 1.2rem;
+            color: var(--text-muted);
+        }
+
+        .step-list li {
+            margin-bottom: 0.75rem;
+        }
+
+        .btn {
+            display: inline-block;
+            background: linear-gradient(45deg, var(--accent-purple), var(--accent-blue));
+            color: #ffffff;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 700;
+            text-align: center;
+            width: 100%;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid var(--text-muted);
+            color: var(--text-main);
+        }
+
+        /* Fixed Corner Accessibility Panel */
+        .a11y-widget {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            z-index: 1000;
+        }
+
+        .a11y-toggle {
+            background: #1e293b;
+            border: 2px solid var(--accent-blue);
+            color: #ffffff;
+            padding: 12px 20px;
+            border-radius: 50px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .a11y-menu {
+            display: none;
+            position: absolute;
+            bottom: 60px;
+            right: 0;
+            background: #111827;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 12px;
+            width: 240px;
+        }
+
+        .a11y-menu button {
+            display: block;
+            width: 100%;
+            background: rgba(255,255,255,0.05);
+            color: var(--text-main);
+            border: 1px solid rgba(255,255,255,0.05);
+            padding: 10px 14px;
+            margin: 6px 0;
+            text-align: left;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .a11y-menu button:hover {
+            background: var(--accent-purple);
+        }
+    </style>
 </head>
 <body>
 
-<header class="fixed w-full top-0 left-0 z-30">
-  <nav class="container mx-auto flex justify-between items-center py-3 px-4 glass rounded-b-lg">
-    <div class="flex items-center gap-3">
-      <span class="inline-flex w-10 h-10 rounded-full bg-gradient-to-tr from-sky-400 to-teal-400 items-center justify-center shadow" aria-hidden="true">
-        <svg viewBox="0 0 24 24" width="22" height="22" fill="white"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4A7 7 0 0 0 5 11c0 .34.03.67.07 1H4a4 4 0 0 0 0 8h15a5 5 0 0 0 .35-9.96z"/></svg>
-      </span>
-      <div>
-        <div class="text-lg font-semibold text-slate-900">Cloud Works</div>
-        <div class="text-xs" style="color:var(--muted)">Device provisioning & IT support</div>
-      </div>
+    <div class="container">
+        
+        <!-- MAIN SECTION HEADER -->
+        <section class="hero">
+            <h1>Systems & Operations</h1>
+            <p>Ensure your online infrastructure remains fully optimized and online 24/7.</p>
+        </section>
+
+        <!-- SERVICES SECTION GRID -->
+        <section class="grid-2">
+            
+            <!-- REMOTE SERVER SUPPORT -->
+            <div class="card">
+                <div>
+                    <h3>Remote Server Support</h3>
+                    <p>On-demand specialized maintenance sessions to debug network protocols, update OS architectures, or clean database clusters.</p>
+                    <div class="price-badge">Pay-Per-Incident</div>
+                </div>
+                <button onclick="alert('Contacting support team...')" class="btn btn-secondary">Contact Technical Team</button>
+            </div>
+
+            <!-- WEB APP CHECKUP PLAN -->
+            <div class="card">
+                <div>
+                    <h3>Web App Checkup Plan</h3>
+                    <p>Ongoing recurring monitoring plan specifically crafted for web apps we build for you to avoid performance lag or software regressions.</p>
+                    <div class="price-badge">£4.99 / month</div>
+                    <ul class="step-list">
+                        <li>Routine configuration updates.</li>
+                        <li>Critical structure integrity tests.</li>
+                        <li>Server logs & speed optimization passes.</li>
+                    </ul>
+                </div>
+                <a href="YOUR_SUBSCRIPTION_LINK_HERE" class="btn">Subscribe to Maintenance</a>
+            </div>
+
+        </section>
     </div>
 
-    <ul class="flex gap-3 md:gap-5 items-center">
-      <li><button onclick="showScreen('main')" id="tab-main" class="px-3 py-2 rounded-md text-sm font-medium hover:bg-slate-100 transition">Home</button></li>
-      <li><button onclick="showScreen('downloads')" id="tab-downloads" class="px-3 py-2 rounded-md text-sm font-medium hover:bg-slate-100 transition">Downloads</button></li>
-      <li><button onclick="showScreen('devices')" id="tab-devices" class="px-3 py-2 rounded-md text-sm font-medium hover:bg-slate-100 transition">Devices</button></li>
-      <li><button onclick="openLoginModal()" class="px-4 py-2 rounded-full bg-emerald-600 text-white hover:bg-emerald-700 transition shadow-sm font-semibold text-sm" id="login-btn">Login</button></li>
-      <li><button onclick="openModal()" class="px-4 py-2 rounded-full bg-sky-600 text-white hover:bg-sky-700 transition shadow-sm font-semibold text-sm">Contact IT</button></li>
-    </ul>
-  </nav>
-</header>
-
-<main class="container mx-auto w-full pb-12">
-
-  <!-- HOME -->
-  <section id="screen-main">
-    <section class="relative flex flex-col items-center justify-center py-20 mb-10 rounded-xl overflow-hidden card">
-      <div class="relative z-10 max-w-2xl mx-auto text-center px-6">
-        <h1 class="text-4xl md:text-5xl font-bold mb-3 text-slate-900">Cloud Works</h1>
-        <p class="text-lg text-slate-600 mb-6">
-          We provision devices and provide IT support for registered users. Devices are prepared and managed centrally — installations are handled via MDM and provisioning workflows.
-        </p>
-        <div class="flex gap-3 justify-center">
-          <button onclick="showScreen('devices')" class="px-5 py-3 rounded-md bg-slate-800 text-white hover:bg-slate-900 transition font-semibold">Request a device</button>
-          <button onclick="openModal()" class="px-5 py-3 rounded-md border border-slate-200 text-slate-800 hover:bg-slate-50 transition">Contact IT</button>
+    <!-- ACCESSIBILITY INTERACTIVE COMPONENT -->
+    <div class="a11y-widget">
+        <button class="a11y-toggle" onclick="toggleA11yMenu()">Accessibility Options ⚙️</button>
+        <div class="a11y-menu" id="a11yMenu">
+            <button onclick="toggleSetting('high-contrast')">🌓 High Contrast Mode</button>
+            <button onclick="toggleSetting('colorblind-mode')">🎨 Colorblind Palette</button>
+            <button onclick="toggleSetting('large-text')">🔍 Magnify Text</button>
         </div>
-      </div>
-    </section>
-
-    <!-- Why / How / CTA -->
-    <section aria-labelledby="why-heading" class="max-w-5xl mx-auto mt-8 space-y-8 px-4">
-      <div class="card rounded-xl p-6">
-        <h3 id="why-heading" class="text-2xl font-semibold mb-4 text-slate-900">Why Cloud Works</h3>
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div class="p-4 rounded-lg bg-white border">
-            <div class="flex items-start gap-3">
-              <div class="flex-none w-12 h-12 rounded-md bg-slate-100 flex items-center justify-center text-slate-700 font-bold">🔧</div>
-              <div>
-                <div class="font-semibold text-slate-900">Device provisioning</div>
-                <div class="text-sm text-slate-600">We provision and configure devices — all setup is done centrally using MDM and automated provisioning.</div>
-              </div>
-            </div>
-          </div>
-
-          <div class="p-4 rounded-lg bg-white border">
-            <div class="flex items-start gap-3">
-              <div class="flex-none w-12 h-12 rounded-md bg-slate-100 flex items-center justify-center text-slate-700 font-bold">🔒</div>
-              <div>
-                <div class="font-semibold text-slate-900">Managed installs</div>
-                <div class="text-sm text-slate-600">We do not provide OS installers — software and OS images are deployed via MDM/provisioning for consistency and security.</div>
-              </div>
-            </div>
-          </div>
-
-          <div class="p-4 rounded-lg bg-white border">
-            <div class="flex items-start gap-3">
-              <div class="flex-none w-12 h-12 rounded-md bg-slate-100 flex items-center justify-center text-slate-700 font-bold">🔗</div>
-              <div>
-                <div class="font-semibold text-slate-900">Single sign-on</div>
-                <div class="text-sm text-slate-600">Cloudflare Access provides SSO links to approved services (Plex, Jellyfin, Immich, etc.).</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="card rounded-xl p-6">
-        <h4 class="text-xl font-semibold mb-3 text-slate-900">How it works</h4>
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div class="flex flex-col items-start gap-3 p-4 rounded-lg bg-white border">
-            <div class="text-2xl font-bold text-emerald-600">1</div>
-            <div class="font-semibold">Request device</div>
-            <div class="text-sm text-slate-600">Open a request via Contact IT — include required specs and justification.</div>
-          </div>
-
-          <div class="flex flex-col items-start gap-3 p-4 rounded-lg bg-white border">
-            <div class="text-2xl font-bold text-emerald-600">2</div>
-            <div class="font-semibold">Provision & configure</div>
-            <div class="text-sm text-slate-600">We image and configure devices using MDM, apply security policies and enroll the device.</div>
-          </div>
-
-          <div class="flex flex-col items-start gap-3 p-4 rounded-lg bg-white border">
-            <div class="text-2xl font-bold text-emerald-600">3</div>
-            <div class="font-semibold">Delivery & support</div>
-            <div class="text-sm text-slate-600">Device is delivered and supported — raise follow-up tickets for additional software or changes.</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="flex flex-col sm:flex-row items-center justify-between gap-4 card rounded-xl p-6">
-        <div>
-          <div class="text-lg font-semibold text-slate-900">Need a device?</div>
-          <div class="text-sm text-slate-600">Use the button to request provisioning. For urgent needs, contact IT directly.</div>
-        </div>
-        <div class="flex gap-3">
-          <button onclick="openModal()" class="px-5 py-2 rounded-md bg-sky-600 text-white hover:bg-sky-700 transition font-semibold">Contact IT</button>
-          <button onclick="showScreen('devices')" class="px-5 py-2 rounded-md border border-slate-200 text-slate-900 hover:bg-slate-50 transition">Request a device</button>
-        </div>
-      </div>
-    </section>
-
-  </section>
-
-  <!-- DOWNLOADS -->
-  <section id="screen-downloads" class="hidden">
-    <div class="max-w-4xl mx-auto card rounded-xl p-8 mt-6">
-      <h2 class="text-2xl font-semibold mb-4 text-slate-900">Downloads & Images</h2>
-      <p class="text-sm text-slate-600 mb-4">
-        We do not publish OS installers or tools for direct download. Operating systems and core images are deployed to devices via our MDM/provisioning system. If you need a specific application or installer, contact IT and we will advise on the approved method.
-      </p>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
-        <div class="p-6 rounded-lg bg-gradient-to-b from-white to-slate-50 border hover:shadow-md transition">
-          <div class="text-lg font-semibold text-slate-900 mb-2">MDM Enrollment</div>
-          <div class="text-sm text-slate-600">Instructions and help for enrolling devices in our MDM (contact IT for automated enrollment).</div>
-        </div>
-
-        <div class="p-6 rounded-lg bg-gradient-to-b from-white to-slate-50 border hover:shadow-md transition">
-          <div class="text-lg font-semibold text-slate-900 mb-2">Provisioning Policies</div>
-          <div class="text-sm text-slate-600">Security baseline, applications and access levels are applied during provisioning — request exceptions through IT.</div>
-        </div>
-      </div>
     </div>
-  </section>
 
-  <!-- DEVICES -->
-  <section id="screen-devices" class="hidden">
-    <div class="max-w-5xl mx-auto card rounded-xl p-8 mt-6">
-      <div class="flex items-start justify-between gap-4">
-        <div>
-          <h2 class="text-2xl font-semibold mb-1 text-slate-900">Device provisioning</h2>
-          <p class="text-sm text-slate-600 mb-3">We provision laptops, tablets, phones and workstations. Fill a request and we'll handle imaging, configuration and enrolment.</p>
-        </div>
-      </div>
+    <!-- UTILITY CONTROL SCRIPTS -->
+    <script>
+        // Tab Routing Functionality
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            
+            document.querySelectorAll('nav a').forEach(link => link.classList.remove('active-link'));
+            event.currentTarget.classList.add('active-link');
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-6">
-        <div class="p-5 rounded-lg bg-gradient-to-b from-white to-slate-50 border hover:shadow-md transition">
-          <div class="mb-3">
-            <div class="text-lg font-semibold text-slate-900">Chromebook</div>
-            <div class="text-sm text-slate-600">Provisioned, secure and security policies securely enabled.</div>
-          </div>
-          <div class="flex items-center justify-between">
-            <div class="text-sm text-slate-700 font-semibold">Request via Contact IT</div>
-            <button onclick="openModal()" class="px-3 py-2 rounded-md bg-slate-800 text-white hover:bg-slate-900 text-sm">Request</button>
-          </div>
-        </div>
+        // Accessibility Menu Toggles
+        function toggleA11yMenu() {
+            const menu = document.getElementById('a11yMenu');
+            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+        }
 
-        <div class="p-5 rounded-lg bg-gradient-to-b from-white to-slate-50 border hover:shadow-md transition">
-          <div class="mb-3">
-            <div class="text-lg font-semibold text-slate-900">Standard Phone</div>
-            <div class="text-sm text-slate-600">Configured with company baseline, full MDM enrolment and required security policies.</div>
-          </div>
-          <div class="flex items-center justify-between">
-            <div class="text-sm text-slate-700 font-semibold">Request via Contact IT</div>
-            <button onclick="openModal()" class="px-3 py-2 rounded-md bg-slate-800 text-white hover:bg-slate-900 text-sm">Request</button>
-          </div>
-        </div>
+        function toggleSetting(className) {
+            document.body.classList.toggle(className);
+        }
 
-        <div class="p-5 rounded-lg bg-gradient-to-b from-white to-slate-50 border hover:shadow-md transition">
-          <div class="mb-3">
-            <div class="text-lg font-semibold text-slate-900">Specialist Workstation</div>
-            <div class="text-sm text-slate-600">High-spec machines for creative or engineering workloads — provision on request.</div>
-          </div>
-          <div class="flex items-center justify-between">
-            <div class="text-sm text-slate-700 font-semibold">Request via Contact IT</div>
-            <button onclick="openModal()" class="px-3 py-2 rounded-md bg-slate-800 text-white hover:bg-slate-900 text-sm">Request</button>
-          </div>
-        </div>
-
-        <div class="p-5 rounded-lg bg-gradient-to-b from-white to-slate-50 border hover:shadow-md transition">
-          <div class="mb-3">
-            <div class="text-lg font-semibold text-slate-900">Standard Tablet</div>
-            <div class="text-sm text-slate-600">Configured with company baseline, full MDM enrolment and required security policies.</div>
-          </div>
-          <div class="flex items-center justify-between">
-            <div class="text-sm text-slate-700 font-semibold">Request via Contact IT</div>
-            <button onclick="openModal()" class="px-3 py-2 rounded-md bg-slate-800 text-white hover:bg-slate-900 text-sm">Request</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="mt-6 text-center">
-        <button onclick="openModal()" class="inline-block px-6 py-3 rounded-md bg-emerald-600 text-white hover:bg-emerald-700 transition font-semibold">Request a device</button>
-      </div>
-    </div>
-  </section>
-
-</main>
-
-<!-- Contact Modal -->
-<div id="contactModal" class="fixed inset-0 z-40 modal-backdrop flex items-center justify-center bg-black bg-opacity-40 opacity-0 pointer-events-none">
-  <div class="w-full max-w-xl p-8 bg-white rounded-2xl shadow-2xl relative modal-panel transform scale-95 opacity-0">
-    <button onclick="closeModal()" aria-label="Close contact" class="absolute top-4 right-4 text-xl text-slate-400 hover:text-red-500">&times;</button>
-    <h2 class="text-2xl font-semibold mb-4 text-blue-600">Contact IT Support</h2>
-    <form onsubmit="sendEmail(event)" class="space-y-4">
-      <input type="text" id="name" placeholder="Name" required class="w-full border p-3 rounded-md" />
-      <input type="email" id="email" placeholder="Email" required class="w-full border p-3 rounded-md" />
-      <textarea id="message" placeholder="Message (include device type/specs if requesting provisioning)" rows="5" required class="w-full border p-3 rounded-md"></textarea>
-      <div class="flex justify-end">
-        <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-md font-semibold hover:bg-blue-700">Send Request</button>
-      </div>
-    </form>
-  </div>
-</div>
-
-<!-- Login Modal -->
-<div id="loginModal" class="fixed inset-0 z-40 modal-backdrop flex items-center justify-center bg-black bg-opacity-40 opacity-0 pointer-events-none">
-  <div class="w-full max-w-md p-8 bg-white rounded-2xl shadow-2xl relative modal-panel transform scale-95 opacity-0">
-    <button onclick="closeLoginModal()" aria-label="Close login" class="absolute top-4 right-4 text-xl text-slate-400 hover:text-red-500">&times;</button>
-    <h2 class="text-2xl font-semibold mb-4 text-green-600">Login / Single Sign-On</h2>
-
-    <a href="https://cloudmanager.cloudflareaccess.com" class="block text-center bg-emerald-600 text-white font-bold px-6 py-3 rounded-md hover:bg-emerald-700 mb-4">
-      Login with Cloudflare Access
-    </a>
-
-    <p class="text-sm text-slate-600">After sign-in you will see links to approved services. If you need access to another service, contact IT.</p>
-  </div>
-</div>
-
-<footer class="text-center py-6 mt-10">
-  <div class="text-sm text-slate-500">&copy; 2026 Cloud Works. All rights reserved.</div>
-</footer>
-
-<script>
-  const screens = ['main', 'downloads', 'devices'];
-  function showScreen(name){
-    screens.forEach(s=>{
-      const el = document.getElementById('screen-'+s);
-      if(el) el.style.display = (s===name) ? 'block' : 'none';
-      const tabId = s === 'devices' ? 'tab-devices' : 'tab-'+s;
-      const tab = document.getElementById(tabId);
-      if(tab) tab.classList.toggle('nav-active', s===name);
-    });
-  }
-  showScreen('main');
-
-  const contactModal = document.getElementById('contactModal');
-  function openModal(){
-    contactModal.style.opacity='1';
-    contactModal.style.pointerEvents='auto';
-    const panel = contactModal.querySelector('.modal-panel');
-    if(panel){ panel.style.transform='translateY(0) scale(1)'; panel.style.opacity='1'; }
-  }
-  function closeModal(){
-    const panel = contactModal.querySelector('.modal-panel');
-    if(panel){ panel.style.transform='translateY(6px) scale(.98)'; panel.style.opacity='0'; }
-    contactModal.style.opacity='0';
-    contactModal.style.pointerEvents='none';
-  }
-  contactModal.addEventListener('click', e=>{ if(e.target===contactModal) closeModal(); });
-
-  function sendEmail(e){
-    e.preventDefault();
-    const name = (document.getElementById('name')||{}).value||'';
-    const email = (document.getElementById('email')||{}).value||'';
-    const message = (document.getElementById('message')||{}).value||'';
-    const subject = encodeURIComponent(`Device/Support Request from ${name || 'User'}`);
-    const body = `Name: ${encodeURIComponent(name)}%0AEmail: ${encodeURIComponent(email)}%0ARequest: ${encodeURIComponent(message)}`;
-    window.location.href = `mailto:business@cloudworks.org.uk?subject=${subject}&body=${body}`;
-    closeModal();
-  }
-
-  const loginModal = document.getElementById('loginModal');
-  function openLoginModal(){ loginModal.style.opacity='1'; loginModal.style.pointerEvents='auto'; const panel = loginModal.querySelector('.modal-panel'); if(panel){ panel.style.transform='translateY(0) scale(1)'; panel.style.opacity='1'; } }
-  function closeLoginModal(){ const panel = loginModal.querySelector('.modal-panel'); if(panel){ panel.style.transform='translateY(6px) scale(.98)'; panel.style.opacity='0'; } loginModal.style.opacity='0'; loginModal.style.pointerEvents='none'; }
-  loginModal.addEventListener('click', e=>{ if(e.target===loginModal) closeLoginModal(); });
-</script>
+        // Close Accessibility menu on outside click
+        window.onclick = function(event) {
+            if (!event.target.matches('.a11y-toggle') && !event.target.closest('.a11y-menu')) {
+                document.getElementById('a11yMenu').style.display = 'none';
+            }
+        }
+    </script>
 </body>
 </html>
